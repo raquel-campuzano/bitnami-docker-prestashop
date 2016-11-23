@@ -52,13 +52,13 @@ If you want to run the application manually instead of using docker-compose, the
 1. Create a new network for the application and the database:
 
   ```bash
-  $ docker network create prestashop_network
+  $ docker network create prestashop-tier
   ```
 
 2. Start a MariaDB database in the network generated:
 
   ```bash
-  $ docker run -d --name mariadb --net=prestashop_network bitnami/mariadb
+  $ docker run -d --name mariadb --net=prestashop-tier bitnami/mariadb
   ```
 
   *Note:* You need to give the container a name in order to PrestaShop to resolve the host
@@ -66,7 +66,7 @@ If you want to run the application manually instead of using docker-compose, the
 3. Run the PrestaShop container:
 
   ```bash
-  $ docker run -d -p 80:80 --name prestashop --net=prestashop_network bitnami/prestashop
+  $ docker run -d -p 80:80 --name prestashop --net=prestashop-tier bitnami/prestashop
   ```
 
 Then you can access your application at http://your-ip/
@@ -75,7 +75,7 @@ Then you can access your application at http://your-ip/
 
 ## Persisting your application
 
-If you remove every container all your data will be lost, and the next time you run the image the application will be reinitialized. To avoid this loss of data, you should mount a volume that will persist even after the container is removed. 
+If you remove every container all your data will be lost, and the next time you run the image the application will be reinitialized. To avoid this loss of data, you should mount a volume that will persist even after the container is removed.
 
 For persistence of the Prestashop deployment, the above examples define docker volumes namely `mariadb_data` and `prestashop_data` and `apache_data`. The Prestashop application state will persist as long as these volumes are not removed.
 
@@ -93,7 +93,7 @@ services:
   mariadb:
     image: 'bitnami/mariadb:latest'
     volumes:
-      - '/path/to/your/local/mariadb_data:/bitnami/mariadb'
+      - '/path/to/mariadb-persistence:/bitnami/mariadb'
   prestashop:
     image: 'bitnami/prestashop:latest'
     depends_on:
@@ -104,7 +104,7 @@ services:
     volumes:
       - '/path/to/prestashop-persistence:/bitnami/prestashop'
       - '/path/to/apache-persistence/bitnami/apache'
-    
+
 ```
 
 ### Mount host directories as data volumes using the Docker command line
@@ -187,7 +187,7 @@ prestashop:
  * For manual execution add a `-e` option with each variable and value:
 
 ```bash
- $ docker run -d -e PRESTASHOP_PASSWORD=my_password -p 80:80 --name prestashop -v /your/local/path/bitnami/prestashop:/bitnami/prestashop --network=prestashop_network bitnami/prestashop
+ $ docker run -d -e PRESTASHOP_PASSWORD=my_password -p 80:80 --name prestashop -v /your/local/path/bitnami/prestashop:/bitnami/prestashop --network=prestashop-tier bitnami/prestashop
 ```
 
 Available variables:
