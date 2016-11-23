@@ -51,13 +51,13 @@ If you want to run the application manually instead of using docker-compose, the
 
 1. Create a new network for the application and the database:
 
-  ```
+  ```bash
   $ docker network create prestashop_network
   ```
 
 2. Start a MariaDB database in the network generated:
 
-  ```
+  ```bash
   $ docker run -d --name mariadb --net=prestashop_network bitnami/mariadb
   ```
 
@@ -65,7 +65,7 @@ If you want to run the application manually instead of using docker-compose, the
 
 3. Run the PrestaShop container:
 
-  ```
+  ```bash
   $ docker run -d -p 80:80 --name prestashop --net=prestashop_network bitnami/prestashop
   ```
 
@@ -113,13 +113,13 @@ In this case you need to specify the directories to mount on the run command. Th
 
 1. Create a network (if it does not exist):
 
-  ```
+  ```bash
   $ docker network create prestashop-tier
   ```
 
 2. Create a MariaDB container with host volume:
 
-  ```
+  ```bash
   $ docker run -d --name mariadb \
     --net prestashop-tier \
     --volume /path/to/mariadb-persistence:/bitnami/mariadb \
@@ -130,7 +130,7 @@ In this case you need to specify the directories to mount on the run command. Th
 
 3. Run the PrestaShop container:
 
-  ```
+  ```bash
   $ docker run -d --name prestashop -p 80:80 -p 443:443 \
     --net prestashop-tier \
     --volume /path/to/prestashop-persistence:/bitnami/prestashop \
@@ -144,7 +144,7 @@ Bitnami provides up-to-date versions of MariaDB and PrestaShop, including securi
 
 1. Get the updated images:
 
-  ```
+  ```bash
   $ docker pull bitnami/prestashop:latest
   ```
 
@@ -186,7 +186,7 @@ prestashop:
 
  * For manual execution add a `-e` option with each variable and value:
 
-```
+```bash
  $ docker run -d -e PRESTASHOP_PASSWORD=my_password -p 80:80 --name prestashop -v /your/local/path/bitnami/prestashop:/bitnami/prestashop --network=prestashop_network bitnami/prestashop
 ```
 
@@ -214,7 +214,7 @@ To backup your application data follow these steps:
 
 2. Copy the PrestaShop data folder in the host:
 
-  ```
+  ```bash
   $ docker cp /your/local/path/bitnami:/bitnami/prestashop
   ```
 
